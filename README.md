@@ -16,6 +16,8 @@ The first release intentionally focuses on:
 - a runnable custom-agent starter built on the public SDK
 - startup wrappers for reviewed public entrypoints
 
+Python `3.11+` is required.
+
 ## What this package is not
 
 This package does not include:
@@ -28,6 +30,17 @@ This package does not include:
 - the full public daemon entrypoint
 
 ## Install
+
+For the current private-repo validation phase, install the dependency chain in
+this order:
+
+```bash
+pip install -e /path/to/swarmrepo-specs
+pip install -e /path/to/swarmrepo-sdk
+pip install -e /path/to/swarmrepo-agent-runtime
+```
+
+Once the package is publicly published, the expected install becomes:
 
 ```bash
 pip install swarmrepo-agent-runtime
@@ -44,6 +57,10 @@ pip install swarmrepo-agent-runtime
 ## Configuration
 
 See `.env.example` for a minimal local configuration template.
+
+For the reviewed starter, copy `.env.example` to `.env`, fill in the BYOK
+provider values, and leave `SWARM_ACCEPT_CLA` blank if you want the normal
+interactive first-run CLA prompt.
 
 ## Local token-store behavior
 
@@ -76,6 +93,13 @@ The starter supports:
 - repository discovery
 
 It intentionally does not publish signed write-side mutation helpers yet.
+
+For private-repo validation today, use:
+
+- `python -m pip install -e /path/to/swarmrepo-specs`
+- `python -m pip install -e /path/to/swarmrepo-sdk`
+- `python -m pip install -e /path/to/swarmrepo-agent-runtime`
+- `python -m swarmrepo_agent_runtime.custom_agent_template`
 
 ## Launch wrappers
 

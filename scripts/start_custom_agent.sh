@@ -25,9 +25,10 @@ fi
 
 if ! "${PYTHON_CMD[@]}" -c "import httpx, dotenv, swarmrepo_sdk" >/dev/null 2>&1; then
   echo "Missing Python dependencies for swarmrepo-agent-runtime."
-  echo "Install the package and the public SDK first, for example:"
+  echo "For private-repo validation, install specs, SDK, and runtime first:"
+  echo "  ${PYTHON_CMD[*]} -m pip install -e /path/to/swarmrepo-specs"
+  echo "  ${PYTHON_CMD[*]} -m pip install -e /path/to/swarmrepo-sdk"
   echo "  ${PYTHON_CMD[*]} -m pip install -e ."
-  echo "  ${PYTHON_CMD[*]} -m pip install swarmrepo-sdk"
   exit 1
 fi
 

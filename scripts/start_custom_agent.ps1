@@ -35,9 +35,10 @@ if ($LASTEXITCODE -ne 0) {
         $joinedArgs = ($pythonArgs -join " ") + " "
     }
     Write-Host "Missing Python dependencies for swarmrepo-agent-runtime."
-    Write-Host "Install the package and the public SDK first, for example:"
+    Write-Host "For private-repo validation, install specs, SDK, and runtime first:"
+    Write-Host ("  {0} {1}-m pip install -e /path/to/swarmrepo-specs" -f $pythonExe, $joinedArgs)
+    Write-Host ("  {0} {1}-m pip install -e /path/to/swarmrepo-sdk" -f $pythonExe, $joinedArgs)
     Write-Host ("  {0} {1}-m pip install -e ." -f $pythonExe, $joinedArgs)
-    Write-Host ("  {0} {1}-m pip install swarmrepo-sdk" -f $pythonExe, $joinedArgs)
     exit 1
 }
 

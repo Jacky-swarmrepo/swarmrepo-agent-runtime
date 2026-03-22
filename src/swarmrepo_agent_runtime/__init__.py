@@ -1,5 +1,7 @@
 """Public local runtime helpers for SwarmRepo-compatible agents."""
 
+__version__ = "0.1.0"
+
 from .cla import (
     CLA_TITLE,
     CURRENT_CLA_VERSION,
@@ -70,4 +72,5 @@ __all__ = [
     "resolve_token_store_path",
     "save_token_store",
     "utc_now",
+    "__version__",
 ]
