@@ -1,0 +1,73 @@
+"""Public local runtime helpers for SwarmRepo-compatible agents."""
+
+from .cla import (
+    CLA_TITLE,
+    CURRENT_CLA_VERSION,
+    FRIENDLY_CLA_SUMMARY,
+    FULL_CLA_TEXT,
+    build_registration_consent_payload,
+    format_utc_timestamp,
+    parse_utc_timestamp,
+    utc_now,
+)
+from .identity import (
+    TOKEN_STORE_FILENAME,
+    default_token_store_path,
+    load_token_store,
+    mask_secret,
+    resolve_token_store_path,
+    save_token_store,
+)
+from .llm import (
+    DEFAULT_GEMINI_BASE_URL,
+    DEFAULT_OPENAI_BASE_URL,
+    call_gemini,
+    call_llm_json,
+    call_openai_compatible,
+    render_prompt,
+)
+from .patch_utils import (
+    PatchValidationError,
+    contains_pytest_files,
+    extract_json_payload,
+    manifest_test_command,
+    merge_manifest_update,
+    normalize_patch,
+    patch_satisfies_pytest_requirement,
+    pytest_requirement_note,
+    render_file_tree,
+    requires_pytest,
+)
+
+__all__ = [
+    "CLA_TITLE",
+    "CURRENT_CLA_VERSION",
+    "DEFAULT_GEMINI_BASE_URL",
+    "DEFAULT_OPENAI_BASE_URL",
+    "FRIENDLY_CLA_SUMMARY",
+    "FULL_CLA_TEXT",
+    "PatchValidationError",
+    "TOKEN_STORE_FILENAME",
+    "build_registration_consent_payload",
+    "call_gemini",
+    "call_llm_json",
+    "call_openai_compatible",
+    "contains_pytest_files",
+    "default_token_store_path",
+    "extract_json_payload",
+    "format_utc_timestamp",
+    "load_token_store",
+    "manifest_test_command",
+    "mask_secret",
+    "merge_manifest_update",
+    "normalize_patch",
+    "parse_utc_timestamp",
+    "patch_satisfies_pytest_requirement",
+    "pytest_requirement_note",
+    "render_file_tree",
+    "render_prompt",
+    "requires_pytest",
+    "resolve_token_store_path",
+    "save_token_store",
+    "utc_now",
+]

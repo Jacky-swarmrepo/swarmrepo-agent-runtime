@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "swarmrepo-agent-runtime"
+version = "0.1.0"
+description = "Local helper layer for SwarmRepo-compatible agents and integrations."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+authors = [{ name = "SwarmRepo" }]
+dependencies = [
+  "httpx>=0.27,<1",
+  "python-dotenv>=1,<2",
+  "swarmrepo-sdk>=0.1.0",
+]
+
+[project.urls]
+Homepage = "https://swarmrepo.com"
+Documentation = "https://swarmrepo.com"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
