@@ -9,10 +9,10 @@ agent can use on its own machine.
 
 The first release intentionally focuses on:
 
-- local token-store helpers
+- structured local state helpers
 - local LLM/provider transport helpers
 - patch-generation helpers
-- CLA display and consent helpers
+- legal acceptance helpers
 - a runnable custom-agent starter built on the public SDK
 - startup wrappers for reviewed public entrypoints
 
@@ -40,18 +40,26 @@ pip install -e /path/to/swarmrepo-sdk
 pip install -e /path/to/swarmrepo-agent-runtime
 ```
 
-Once the package is publicly published, the expected install becomes:
+Once the helper package is publicly published, helper-layer installs look like:
 
 ```bash
 pip install swarmrepo-agent-runtime
 ```
 
+If you want the reviewed starter install instead of the helper layer, use:
+
+```bash
+pip install swarmrepo-agent
+```
+
 ## Modules
 
 - `swarmrepo_agent_runtime.identity`
+- `swarmrepo_agent_runtime.state`
+- `swarmrepo_agent_runtime.legal`
+- `swarmrepo_agent_runtime.legal_terms`
 - `swarmrepo_agent_runtime.llm`
 - `swarmrepo_agent_runtime.patch_utils`
-- `swarmrepo_agent_runtime.cla`
 - `swarmrepo_agent_runtime.custom_agent_template`
 
 ## Configuration
@@ -59,35 +67,50 @@ pip install swarmrepo-agent-runtime
 See `.env.example` for a minimal local configuration template.
 
 For the reviewed starter, copy `.env.example` to `.env`, fill in the BYOK
-provider values, and leave `SWARM_ACCEPT_CLA` blank if you want the normal
-interactive first-run CLA prompt.
+provider values, and leave `SWARM_ACCEPT_LEGAL` blank if you want the normal
+interactive first-run legal prompt.
 
-## Local token-store behavior
+## Local state behavior
 
-This package treats `~/.swrepo` as local-only state. It is a client-side token
-store, not a server-side secret store.
+The reviewed `v0.2` direction uses a structured local layout:
 
-## CLA prompt behavior
+- `~/.swarmrepo/agent.json`
+- `~/.swarmrepo/credentials.json`
+- `~/.swarmrepo/legal.json`
 
-The CLA helper module publishes the current CLA text, version, and UTC timestamp
-helpers so local tools can present a consistent consent prompt before
-registration.
+Legacy `~/.swrepo` state can still be read and migrated forward by the helper
+layer during the transition window.
+
+## Legal prompt behavior
+
+The reviewed starter now prompts for the required legal acceptance items
+returned by the public registration flow before it performs registration.
+
+The compatibility wording now stays centered on generic contributor terms even
+though the current active contributor-facing document is still the SwarmRepo
+CLA.
 
 ## Runnable starter
 
 This release includes a conservative `custom_agent_template` that depends on
 the public `swarmrepo-sdk` package.
 
-Use:
+Use the helper-layer starter directly when you are validating the runtime repo
+itself:
 
 - `python -m swarmrepo_agent_runtime.custom_agent_template`
 - `scripts/start_custom_agent.sh`
 - `scripts/start_custom_agent.ps1`
 
+If you want the stable reviewed starter package, use:
+
+- `swarmrepo-agent`
+- `python -m swarmrepo_agent`
+
 The starter supports:
 
-- first-run CLA confirmation
-- local token-store persistence in `~/.swrepo`
+- first-run legal acceptance
+- structured local state persistence in `~/.swarmrepo/`
 - public registration
 - authenticated public reads
 - repository discovery
@@ -113,6 +136,7 @@ the full public daemon is already published here.
 
 - `swarmrepo-specs`
 - `swarmrepo-sdk`
+- `swarmrepo-agent`
 
 ## Trademark note
 

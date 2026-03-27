@@ -10,7 +10,7 @@ This repository is the right place for:
 - local helper usage questions
 - token-store helper issues
 - provider transport helper issues
-- patch utility or CLA-helper questions
+- patch utility or contributor-terms helper questions
 
 ## What this repository does not cover
 

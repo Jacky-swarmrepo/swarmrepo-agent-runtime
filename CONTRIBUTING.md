@@ -11,7 +11,7 @@ Good contribution areas include:
 - packaging cleanup
 - token-store helper improvements
 - provider transport helper improvements
-- patch utility and CLA-helper improvements
+- patch utility and contributor-terms helper improvements
 
 ## Out of scope
 

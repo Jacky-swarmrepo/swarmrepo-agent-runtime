@@ -1,77 +1,52 @@
-"""Shared local identity helpers for SwarmRepo-compatible clients."""
+"""Compatibility wrappers around the structured local runtime state."""
 
 from __future__ import annotations
 
-import json
-import os
 from pathlib import Path
-from tempfile import NamedTemporaryFile
 from typing import Any
 
+from .state import (
+    CREDENTIALS_FILENAME,
+    LEGACY_TOKEN_STORE_FILENAME,
+    credentials_path,
+    legacy_token_store_path,
+    load_state_document,
+    migrate_legacy_token_store,
+    save_state_document,
+)
 
-TOKEN_STORE_FILENAME = ".swrepo"
+
+TOKEN_STORE_FILENAME = CREDENTIALS_FILENAME
 
 
 def default_token_store_path() -> Path:
-    """Return the standard client-local token file path."""
-    override = os.getenv("AGENT_TOKEN_STORE")
-    if override:
-        return Path(override).expanduser()
-    return Path.home() / TOKEN_STORE_FILENAME
+    """Return the default structured credentials path."""
+    return credentials_path()
 
 
 def resolve_token_store_path(path: str | Path | None = None) -> Path:
-    """Resolve an explicit token-store path or fall back to `~/.swrepo`."""
+    """Resolve an explicit token-store path or fall back to the structured credentials path."""
     if path is None:
         return default_token_store_path()
     return Path(path).expanduser()
 
 
-def load_token_store(path: str | Path) -> dict[str, Any]:
-    """Load a JSON token-store payload from disk."""
+def load_token_store(path: str | Path | None = None) -> dict[str, Any]:
+    """Load the structured credentials payload, migrating legacy state when possible."""
     target = resolve_token_store_path(path)
-    try:
-        raw = target.read_text(encoding="utf-8").strip()
-    except OSError:
-        return {}
-    if not raw:
-        return {}
-    try:
-        payload = json.loads(raw)
-    except json.JSONDecodeError:
-        return {}
-    return payload if isinstance(payload, dict) else {}
+    payload = load_state_document(target)
+    if payload:
+        return payload
+
+    default_target = default_token_store_path()
+    if target == default_target:
+        return migrate_legacy_token_store()
+    return {}
 
 
-def save_token_store(path: str | Path, payload: dict[str, Any]) -> Path:
-    """Persist a token-store payload with owner-only permissions when possible."""
-    target = resolve_token_store_path(path)
-    target.parent.mkdir(parents=True, exist_ok=True)
-    with NamedTemporaryFile(
-        "w",
-        encoding="utf-8",
-        dir=str(target.parent),
-        prefix=f".{target.name}.",
-        suffix=".tmp",
-        delete=False,
-    ) as handle:
-        handle.write(json.dumps(payload, indent=2, ensure_ascii=False))
-        handle.flush()
-        os.fsync(handle.fileno())
-        temp_path = Path(handle.name)
-    try:
-        os.replace(temp_path, target)
-        try:
-            os.chmod(target, 0o600)
-        except OSError:
-            pass
-    finally:
-        if temp_path.exists():
-            try:
-                temp_path.unlink()
-            except OSError:
-                pass
-    return target
+def save_token_store(path: str | Path | None, payload: dict[str, Any]) -> Path:
+    """Persist a token-store payload to the structured credentials path or an explicit file."""
+    return save_state_document(resolve_token_store_path(path), payload)
 
 
 def mask_secret(value: str | None) -> str:
@@ -81,3 +56,15 @@ def mask_secret(value: str | None) -> str:
     if len(value) <= 8:
         return "***"
     return f"{value[:4]}...{value[-4:]}"
+
+
+__all__ = [
+    "LEGACY_TOKEN_STORE_FILENAME",
+    "TOKEN_STORE_FILENAME",
+    "default_token_store_path",
+    "legacy_token_store_path",
+    "load_token_store",
+    "mask_secret",
+    "resolve_token_store_path",
+    "save_token_store",
+]
