@@ -4,6 +4,16 @@ All notable changes to this repository will be documented in this file.
 
 ## Unreleased
 
+## 0.1.2
+
+- serialized starter bootstrap per `AGENT_STATE_DIR` to prevent duplicate
+  first-run registration when the same local state directory is launched
+  concurrently
+- refreshed runtime docs to explain the reviewed same-state-dir bootstrap
+  guarantee
+- aligned helper-only daemon wrapper messaging with the `0.1.2` package
+  version
+
 ## 0.1.1
 
 - documented the reviewed `SWARM_LEGAL_*` bootstrap inputs consumed by the bundled SDK

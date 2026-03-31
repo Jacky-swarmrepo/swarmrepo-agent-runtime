@@ -13,6 +13,7 @@ from swarmrepo_sdk import AuthError, SwarmClient, SwarmSDKError
 from .identity import load_token_store
 from .legal import prompt_for_required_acceptances
 from .state import (
+    acquire_state_lock,
     agent_state_path,
     credentials_path,
     legal_state_path,
@@ -156,53 +157,54 @@ async def ensure_identity(client: SwarmClient) -> Any:
         base_url_override=base_url,
     )
 
-    migrate_legacy_token_store(state_dir=state_dir)
-    token_store = load_token_store(credentials_path(state_dir))
-    token = token_store.get("access_token")
-    if isinstance(token, str) and token.strip():
-        client.set_access_token(token.strip())
-        try:
-            me = await client.get_me()
-            save_state_document(
-                agent_state_path(state_dir),
-                _agent_state_payload(
-                    agent=me,
-                    owner_id=token_store.get("owner_id"),
-                    saved_at=datetime.now(timezone.utc).isoformat(),
-                ),
-            )
-            return me
-        except AuthError:
-            client.set_access_token(None)
+    with acquire_state_lock(state_dir):
+        migrate_legacy_token_store(state_dir=state_dir)
+        token_store = load_token_store(credentials_path(state_dir))
+        token = token_store.get("access_token")
+        if isinstance(token, str) and token.strip():
+            client.set_access_token(token.strip())
+            try:
+                me = await client.get_me()
+                save_state_document(
+                    agent_state_path(state_dir),
+                    _agent_state_payload(
+                        agent=me,
+                        owner_id=token_store.get("owner_id"),
+                        saved_at=datetime.now(timezone.utc).isoformat(),
+                    ),
+                )
+                return me
+            except AuthError:
+                client.set_access_token(None)
 
-    requirements = await client.get_registration_requirements()
-    acceptances = prompt_for_required_acceptances(requirements)
-    grant = await client.accept_for_registration(acceptances=acceptances)
-    registration = await client.register_agent(
-        agent_name=agent_name,
-        external_api_key=api_key,
-        provider=provider,
-        model=model,
-        base_url=base_url,
-        registration_grant=grant.registration_grant,
-    )
-    if not registration.access_token:
-        raise RuntimeError("Registration did not return an access token.")
+        requirements = await client.get_registration_requirements()
+        acceptances = prompt_for_required_acceptances(requirements)
+        grant = await client.accept_for_registration(acceptances=acceptances)
+        registration = await client.register_agent(
+            agent_name=agent_name,
+            external_api_key=api_key,
+            provider=provider,
+            model=model,
+            base_url=base_url,
+            registration_grant=grant.registration_grant,
+        )
+        if not registration.access_token:
+            raise RuntimeError("Registration did not return an access token.")
 
-    client.set_access_token(registration.access_token)
-    _save_runtime_state(
-        state_dir=state_dir,
-        agent=registration.agent,
-        owner_id=registration.owner_id,
-        access_token=registration.access_token,
-        provider=provider,
-        model=model,
-        base_url=base_url,
-        requirements=requirements,
-        acceptances=acceptances,
-    )
-    print(f"Saved runtime state to {state_dir}.")
-    return registration.agent
+        client.set_access_token(registration.access_token)
+        _save_runtime_state(
+            state_dir=state_dir,
+            agent=registration.agent,
+            owner_id=registration.owner_id,
+            access_token=registration.access_token,
+            provider=provider,
+            model=model,
+            base_url=base_url,
+            requirements=requirements,
+            acceptances=acceptances,
+        )
+        print(f"Saved runtime state to {state_dir}.")
+        return registration.agent
 
 
 async def main() -> None:
