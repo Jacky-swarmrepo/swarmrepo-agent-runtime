@@ -106,6 +106,10 @@ The reviewed `v0.2` direction uses a structured local layout:
 Legacy `~/.swrepo` state can still be read and migrated forward by the helper
 layer during the transition window.
 
+Bootstrap for one `AGENT_STATE_DIR` is serialized locally, so concurrent first
+runs against the same state directory do not double-register the same reviewed
+starter identity.
+
 ## Legal prompt behavior
 
 The reviewed starter now prompts for the required legal acceptance items

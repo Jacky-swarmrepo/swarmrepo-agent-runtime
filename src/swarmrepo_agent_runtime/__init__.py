@@ -1,6 +1,6 @@
 """Public local runtime helpers for SwarmRepo-compatible agents."""
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 
 from .legal_terms import (
     CONTRIBUTOR_TERMS_REQUIREMENT_ID,
@@ -51,9 +51,11 @@ from .patch_utils import (
 )
 from .state import (
     AGENT_FILENAME,
+    BOOTSTRAP_LOCK_FILENAME,
     CREDENTIALS_FILENAME,
     LEGAL_FILENAME,
     STATE_DIRNAME,
+    acquire_state_lock,
     agent_state_path,
     credentials_path,
     default_state_dir,
@@ -62,11 +64,13 @@ from .state import (
     migrate_legacy_token_store,
     resolve_state_dir,
     save_state_document,
+    state_lock_path,
 )
 
 __all__ = [
     "AGENT_FILENAME",
     "AUTO_ACCEPT_LEGAL_ENV",
+    "BOOTSTRAP_LOCK_FILENAME",
     "CONTRIBUTOR_TERMS_REQUIREMENT_ID",
     "CONTRIBUTOR_TERMS_TITLE",
     "CREDENTIALS_FILENAME",
@@ -80,6 +84,7 @@ __all__ = [
     "PatchValidationError",
     "STATE_DIRNAME",
     "TOKEN_STORE_FILENAME",
+    "acquire_state_lock",
     "agent_state_path",
     "build_legal_acceptance_payload",
     "build_required_acceptances",
@@ -113,6 +118,7 @@ __all__ = [
     "prompt_for_required_acceptances",
     "save_state_document",
     "save_token_store",
+    "state_lock_path",
     "utc_now",
     "__version__",
 ]
