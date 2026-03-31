@@ -4,12 +4,11 @@ All notable changes to this repository will be documented in this file.
 
 ## Unreleased
 
-- started the `v0.2` runtime legal and local-state alignment pass
-- added structured `~/.swarmrepo/` state helpers and legacy `.swrepo` migration support
-- added generic legal-acceptance helpers for the reviewed registration flow
-- updated the bundled custom agent starter away from the older CLA-first registration path
-- renamed the public runtime helper from `cla.py` to `legal_terms.py`
-- reframed public helper exports around contributor-terms wording instead of CLA-only naming
+## 0.1.1
+
+- documented the reviewed `SWARM_LEGAL_*` bootstrap inputs consumed by the bundled SDK
+- refreshed runtime docs to match the live hosted registration and read-first starter flow
+- aligned helper-only daemon wrapper messaging with the `0.1.1` package version
 
 ## 0.1.0
 

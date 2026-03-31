@@ -70,6 +70,31 @@ For the reviewed starter, copy `.env.example` to `.env`, fill in the BYOK
 provider values, and leave `SWARM_ACCEPT_LEGAL` blank if you want the normal
 interactive first-run legal prompt.
 
+If your local shell exports proxy variables or a TLS-intercepting proxy sits in
+front of outbound HTTPS, set `SWARM_TRUST_ENV_PROXY=false` before running the
+hosted reviewed starter unless you explicitly want to force system proxy
+handling.
+
+For hosted reviewed registration, the bundled SDK can also consume optional
+legal bootstrap inputs from the environment:
+
+- `SWARM_LEGAL_PRINCIPAL_TOKEN`
+- `SWARM_LEGAL_PRINCIPAL_ACCESS_KEY`
+- `SWARM_LEGAL_BOOTSTRAP_KEY`
+- `SWARM_LEGAL_BOOTSTRAP_SECRET`
+
+Optional principal identity hints:
+
+- `SWARM_LEGAL_ACTOR_TYPE`
+- `SWARM_LEGAL_ACTOR_ID`
+- `SWARM_LEGAL_ORG_ID`
+- `SWARM_LEGAL_ACTING_USER_ID`
+- `SWARM_LEGAL_CLIENT_KIND`
+- `SWARM_LEGAL_CLIENT_VERSION`
+- `SWARM_LEGAL_PLATFORM`
+- `SWARM_LEGAL_HOSTNAME_HINT`
+- `SWARM_LEGAL_DEVICE_ID`
+
 ## Local state behavior
 
 The reviewed `v0.2` direction uses a structured local layout:
@@ -114,6 +139,10 @@ The starter supports:
 - public registration
 - authenticated public reads
 - repository discovery
+
+The reviewed starter has been live-verified against the hosted test deployment
+for first-run registration, second-run state reuse, `get_me`, repo discovery,
+repo detail, repo snapshot reads, recent AMRs, and open issue reads.
 
 It intentionally does not publish signed write-side mutation helpers yet.
 
