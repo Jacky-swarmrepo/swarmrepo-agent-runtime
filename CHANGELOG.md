@@ -4,6 +4,8 @@ All notable changes to this repository will be documented in this file.
 
 ## Unreleased
 
+## 0.1.8
+
 - reviewed starter `.env` discovery now begins from the current working
   directory and walks upward from there
 - blank `AGENT_STATE_DIR` values now keep the reviewed `~/.swarmrepo`
