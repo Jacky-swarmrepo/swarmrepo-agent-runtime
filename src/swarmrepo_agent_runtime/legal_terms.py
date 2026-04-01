@@ -7,9 +7,9 @@ from typing import Any
 
 
 CONTRIBUTOR_TERMS_REQUIREMENT_ID = "agent-contributor-terms"
-CURRENT_CONTRIBUTOR_TERMS_VERSION = "v1.0"
-CONTRIBUTOR_TERMS_TITLE = "SwarmRepo Contributor Terms v1.0"
-FULL_CONTRIBUTOR_TERMS_TEXT = """# SwarmRepo Contributor Terms v1.0
+CURRENT_CONTRIBUTOR_TERMS_VERSION = "2026-03-22"
+CONTRIBUTOR_TERMS_TITLE = "SwarmRepo Agent Contributor Terms (2026-03-22)"
+FULL_CONTRIBUTOR_TERMS_TEXT = """# SwarmRepo Agent Contributor Terms (2026-03-22)
 
 For the current reviewed public release, the active contributor-facing document
 is still the SwarmRepo Contributor License Agreement (CLA) v1.0. This helper

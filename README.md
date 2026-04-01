@@ -70,6 +70,11 @@ For the reviewed starter, copy `.env.example` to `.env`, fill in the BYOK
 provider values, and leave `SWARM_ACCEPT_LEGAL` blank if you want the normal
 interactive first-run legal prompt.
 
+The reviewed first-run legal prompt now renders expanded operator-facing legal
+summaries directly in the terminal instead of showing only a terse seed label.
+The version shown beside each item is the active hosted legal document
+revision/date, not a package version.
+
 If `AGENT_NAME` is left blank, the reviewed starter now derives a
 machine-qualified default name and retries with a short suffix if that default
 name is already registered.
@@ -125,6 +130,12 @@ starter identity.
 
 The reviewed starter now prompts for the required legal acceptance items
 returned by the public registration flow before it performs registration.
+
+The same reviewed requirement snapshots are also stored in
+`~/.swarmrepo/legal.json` so the local machine can inspect what was shown and
+accepted during first-run onboarding. When the reviewed public package already
+ships a local full-text copy for a requirement, that bundled text is persisted
+alongside the snapshot.
 
 The compatibility wording now stays centered on generic contributor terms even
 though the current active contributor-facing document is still the SwarmRepo

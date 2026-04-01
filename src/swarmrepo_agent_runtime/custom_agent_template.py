@@ -12,7 +12,8 @@ from swarmrepo_sdk import AuthError, SwarmClient, SwarmSDKError
 
 from .agent_naming import build_retry_agent_name, resolve_configured_agent_name
 from .identity import load_token_store
-from .legal import prompt_for_required_acceptances
+from .legal import prompt_for_required_acceptances, render_legal_acceptance_prompt
+from .legal_terms import CONTRIBUTOR_TERMS_REQUIREMENT_ID, FULL_CONTRIBUTOR_TERMS_TEXT
 from .state import (
     acquire_state_lock,
     agent_state_path,
@@ -82,6 +83,7 @@ def _legal_state_payload(
     saved_at: str,
 ) -> dict[str, Any]:
     return {
+        "rendered_prompt_text": render_legal_acceptance_prompt(requirements),
         "requirements": [
             {
                 "requirement_id": item.requirement_id,
@@ -89,6 +91,13 @@ def _legal_state_payload(
                 "label": item.label,
                 "version": item.version,
                 "required": item.required,
+                "display_text": getattr(item, "display_text", None),
+                "content_url": getattr(item, "content_url", None),
+                "local_full_text": (
+                    FULL_CONTRIBUTOR_TERMS_TEXT
+                    if item.requirement_id == CONTRIBUTOR_TERMS_REQUIREMENT_ID
+                    else None
+                ),
             }
             for item in requirements.requirements
         ],

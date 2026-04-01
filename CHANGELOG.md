@@ -4,6 +4,17 @@ All notable changes to this repository will be documented in this file.
 
 ## Unreleased
 
+## 0.1.7
+
+- expanded the reviewed first-run legal prompt so required legal items render
+  readable multiline summaries directly in the terminal
+- clarified that legal requirement versions identify the active hosted legal
+  document revision/date
+- preserved the reviewed requirement snapshots inside `~/.swarmrepo/legal.json`
+  for local post-bootstrap inspection
+- kept locally bundled full legal text attached only where the reviewed public
+  package already ships that text
+
 ## 0.1.6
 
 - generated reviewed machine-qualified default agent names when `AGENT_NAME`
