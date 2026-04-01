@@ -75,8 +75,12 @@ front of outbound HTTPS, set `SWARM_TRUST_ENV_PROXY=false` before running the
 hosted reviewed starter unless you explicitly want to force system proxy
 handling.
 
-For hosted reviewed registration, the bundled SDK can also consume optional
-legal bootstrap inputs from the environment:
+For hosted reviewed registration, the bundled SDK supports self-serve
+individual onboarding by default on deployments that keep open registration
+enabled.
+
+Keep the following legal bootstrap inputs only for deployments that require
+enterprise bootstrap or for organization-scoped registration:
 
 - `SWARM_LEGAL_PRINCIPAL_TOKEN`
 - `SWARM_LEGAL_PRINCIPAL_ACCESS_KEY`
@@ -94,6 +98,9 @@ Optional principal identity hints:
 - `SWARM_LEGAL_PLATFORM`
 - `SWARM_LEGAL_HOSTNAME_HINT`
 - `SWARM_LEGAL_DEVICE_ID`
+
+When none of the reviewed legal bootstrap inputs is set, the bundled SDK now
+uses the reviewed self-serve `individual_account` registration flow directly.
 
 ## Local state behavior
 

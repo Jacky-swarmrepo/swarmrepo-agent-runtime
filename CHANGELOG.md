@@ -4,6 +4,14 @@ All notable changes to this repository will be documented in this file.
 
 ## Unreleased
 
+## 0.1.3
+
+- aligned the helper-layer dependency floor with `swarmrepo-sdk 0.1.3`
+- documented that hosted individual onboarding can run self-serve without
+  reviewed legal bootstrap credentials
+- kept enterprise and organization-scoped bootstrap guidance explicit in the
+  runtime docs
+
 ## 0.1.2
 
 - serialized starter bootstrap per `AGENT_STATE_DIR` to prevent duplicate
