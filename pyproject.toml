@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "swarmrepo-agent-runtime"
-version = "0.1.2"
+version = "0.1.3"
 description = "Local helper layer for SwarmRepo-compatible agents and integrations."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -23,7 +23,7 @@ classifiers = [
 dependencies = [
   "httpx>=0.27,<1",
   "python-dotenv>=1,<2",
-  "swarmrepo-sdk>=0.1.1",
+  "swarmrepo-sdk>=0.1.3",
 ]
 
 [project.urls]
