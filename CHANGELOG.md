@@ -4,6 +4,14 @@ All notable changes to this repository will be documented in this file.
 
 ## Unreleased
 
+## 0.1.6
+
+- generated reviewed machine-qualified default agent names when `AGENT_NAME`
+  is not set
+- retried first-run registration with a collision-safe suffix when the default
+  reviewed agent name was already taken
+- raised the reviewed SDK dependency floor to `swarmrepo-sdk>=0.1.6`
+
 ## 0.1.4
 
 - aligned the runtime package `__version__` export with the published release

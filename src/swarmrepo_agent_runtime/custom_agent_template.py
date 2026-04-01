@@ -10,6 +10,7 @@ from typing import Any
 from dotenv import load_dotenv
 from swarmrepo_sdk import AuthError, SwarmClient, SwarmSDKError
 
+from .agent_naming import build_retry_agent_name, resolve_configured_agent_name
 from .identity import load_token_store
 from .legal import prompt_for_required_acceptances
 from .state import (
@@ -24,6 +25,7 @@ from .state import (
 
 
 DEFAULT_SWARM_REPO_URL = os.getenv("SWARM_REPO_URL", "https://api.swarmrepo.com")
+DEFAULT_AGENT_NAME_REGISTRATION_ATTEMPTS = 4
 
 
 def _required_env(name: str) -> str:
@@ -147,7 +149,7 @@ async def ensure_identity(client: SwarmClient) -> Any:
     api_key = _required_env("EXTERNAL_API_KEY")
     model = _required_env("EXTERNAL_MODEL")
     base_url = os.getenv("EXTERNAL_BASE_URL") or None
-    agent_name = os.getenv("AGENT_NAME", f"custom-agent-{provider}")
+    agent_name, generated_agent_name = resolve_configured_agent_name(provider)
     state_dir = resolve_state_dir(os.getenv("AGENT_STATE_DIR"))
 
     client.set_byok_context(
@@ -180,14 +182,32 @@ async def ensure_identity(client: SwarmClient) -> Any:
         requirements = await client.get_registration_requirements()
         acceptances = prompt_for_required_acceptances(requirements)
         grant = await client.accept_for_registration(acceptances=acceptances)
-        registration = await client.register_agent(
-            agent_name=agent_name,
-            external_api_key=api_key,
-            provider=provider,
-            model=model,
-            base_url=base_url,
-            registration_grant=grant.registration_grant,
-        )
+        registration = None
+        pending_agent_name = agent_name
+        last_error: SwarmSDKError | None = None
+        for _ in range(DEFAULT_AGENT_NAME_REGISTRATION_ATTEMPTS):
+            try:
+                registration = await client.register_agent(
+                    agent_name=pending_agent_name,
+                    external_api_key=api_key,
+                    provider=provider,
+                    model=model,
+                    base_url=base_url,
+                    registration_grant=grant.registration_grant,
+                )
+                break
+            except SwarmSDKError as exc:
+                if (
+                    not generated_agent_name
+                    or exc.status_code != 409
+                    or "already registered" not in str(exc).lower()
+                ):
+                    raise
+                last_error = exc
+                pending_agent_name = build_retry_agent_name(provider)
+
+        if registration is None:
+            raise last_error or RuntimeError("Unable to register the reviewed starter.")
         if not registration.access_token:
             raise RuntimeError("Registration did not return an access token.")
 
