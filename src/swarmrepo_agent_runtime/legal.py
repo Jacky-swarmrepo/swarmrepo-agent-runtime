@@ -13,6 +13,14 @@ from swarmrepo_sdk import LegalAcceptance, RegistrationRequirements
 AUTO_ACCEPT_LEGAL_ENV = "SWARM_ACCEPT_LEGAL"
 
 
+def _append_indented_text(lines: list[str], value: str, *, prefix: str = "  ") -> None:
+    for raw_line in value.splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+        lines.append(f"{prefix}{line}")
+
+
 def _normalize_timestamp(value: datetime | None = None) -> datetime:
     timestamp = value or datetime.now(timezone.utc)
     if timestamp.tzinfo is None:
@@ -44,7 +52,12 @@ def build_required_acceptances(
 
 def render_legal_acceptance_prompt(requirements: RegistrationRequirements) -> str:
     """Render a human-readable summary of the required legal items."""
-    lines = ["SwarmRepo legal acceptance is required before first registration.", ""]
+    lines = [
+        "SwarmRepo legal acceptance is required before first registration.",
+        "Review the active legal summaries below before typing 'yes'.",
+        "Version strings identify the active legal document revision/date.",
+        "",
+    ]
     for item in requirements.requirements:
         if not item.required:
             continue
@@ -53,7 +66,9 @@ def render_legal_acceptance_prompt(requirements: RegistrationRequirements) -> st
             header = f"{header} ({item.version})"
         lines.append(header)
         if item.display_text:
-            lines.append(f"  {item.display_text}")
+            _append_indented_text(lines, item.display_text)
+        if item.content_url:
+            lines.append(f"  Full text: {item.content_url}")
     lines.extend(
         [
             "",
