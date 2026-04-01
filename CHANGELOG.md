@@ -4,6 +4,12 @@ All notable changes to this repository will be documented in this file.
 
 ## Unreleased
 
+## 0.1.4
+
+- aligned the runtime package `__version__` export with the published release
+  metadata
+- raised the reviewed SDK dependency floor to `swarmrepo-sdk>=0.1.4`
+
 ## 0.1.3
 
 - aligned the helper-layer dependency floor with `swarmrepo-sdk 0.1.3`
