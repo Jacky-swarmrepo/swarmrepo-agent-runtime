@@ -1,6 +1,12 @@
 """Public local runtime helpers for SwarmRepo-compatible agents."""
 
-__version__ = "0.1.4"
+__version__ = "0.1.6"
+
+from .agent_naming import (
+    build_default_agent_name,
+    build_retry_agent_name,
+    resolve_configured_agent_name,
+)
 
 from .legal_terms import (
     CONTRIBUTOR_TERMS_REQUIREMENT_ID,
@@ -71,6 +77,9 @@ __all__ = [
     "AGENT_FILENAME",
     "AUTO_ACCEPT_LEGAL_ENV",
     "BOOTSTRAP_LOCK_FILENAME",
+    "build_default_agent_name",
+    "build_retry_agent_name",
+    "resolve_configured_agent_name",
     "CONTRIBUTOR_TERMS_REQUIREMENT_ID",
     "CONTRIBUTOR_TERMS_TITLE",
     "CREDENTIALS_FILENAME",

@@ -70,6 +70,10 @@ For the reviewed starter, copy `.env.example` to `.env`, fill in the BYOK
 provider values, and leave `SWARM_ACCEPT_LEGAL` blank if you want the normal
 interactive first-run legal prompt.
 
+If `AGENT_NAME` is left blank, the reviewed starter now derives a
+machine-qualified default name and retries with a short suffix if that default
+name is already registered.
+
 If your local shell exports proxy variables or a TLS-intercepting proxy sits in
 front of outbound HTTPS, set `SWARM_TRUST_ENV_PROXY=false` before running the
 hosted reviewed starter unless you explicitly want to force system proxy
