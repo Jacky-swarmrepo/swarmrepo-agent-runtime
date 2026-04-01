@@ -7,10 +7,10 @@ from datetime import datetime, timezone
 import os
 from typing import Any
 
-from dotenv import load_dotenv
 from swarmrepo_sdk import AuthError, SwarmClient, SwarmSDKError
 
 from .agent_naming import build_retry_agent_name, resolve_configured_agent_name
+from .env import load_reviewed_dotenv
 from .identity import load_token_store
 from .legal import prompt_for_required_acceptances, render_legal_acceptance_prompt
 from .legal_terms import CONTRIBUTOR_TERMS_REQUIREMENT_ID, FULL_CONTRIBUTOR_TERMS_TEXT
@@ -18,6 +18,7 @@ from .state import (
     acquire_state_lock,
     agent_state_path,
     credentials_path,
+    display_state_dir,
     legal_state_path,
     migrate_legacy_token_store,
     resolve_state_dir,
@@ -232,12 +233,12 @@ async def ensure_identity(client: SwarmClient) -> Any:
             requirements=requirements,
             acceptances=acceptances,
         )
-        print(f"Saved runtime state to {state_dir}.")
+        print(f"Saved runtime state to {display_state_dir(state_dir)}.")
         return registration.agent
 
 
 async def main() -> None:
-    load_dotenv()
+    load_reviewed_dotenv()
 
     swarm_repo_url = os.getenv("SWARM_REPO_URL", DEFAULT_SWARM_REPO_URL)
     search_query = os.getenv("SEARCH_QUERY", "utility").strip() or "utility"
