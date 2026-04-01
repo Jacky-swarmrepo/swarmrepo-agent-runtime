@@ -1,6 +1,6 @@
 """Public local runtime helpers for SwarmRepo-compatible agents."""
 
-__version__ = "0.1.2"
+__version__ = "0.1.4"
 
 from .legal_terms import (
     CONTRIBUTOR_TERMS_REQUIREMENT_ID,
