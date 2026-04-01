@@ -33,7 +33,14 @@ def resolve_state_dir(path: str | Path | None = None) -> Path:
     """Resolve an explicit state directory or fall back to the standard one."""
     if path is None:
         return default_state_dir()
+    if isinstance(path, str) and not path.strip():
+        return default_state_dir()
     return Path(path).expanduser()
+
+
+def display_state_dir(path: str | Path | None = None) -> Path:
+    """Return an absolute state-directory path for user-facing output."""
+    return resolve_state_dir(path).resolve(strict=False)
 
 
 def agent_state_path(state_dir: str | Path | None = None) -> Path:

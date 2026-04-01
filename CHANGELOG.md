@@ -4,6 +4,13 @@ All notable changes to this repository will be documented in this file.
 
 ## Unreleased
 
+- reviewed starter `.env` discovery now begins from the current working
+  directory and walks upward from there
+- blank `AGENT_STATE_DIR` values now keep the reviewed `~/.swarmrepo`
+  default instead of collapsing to the current working directory
+- first-run reviewed starter output now renders the resolved local state
+  directory as an absolute path
+
 ## 0.1.7
 
 - expanded the reviewed first-run legal prompt so required legal items render

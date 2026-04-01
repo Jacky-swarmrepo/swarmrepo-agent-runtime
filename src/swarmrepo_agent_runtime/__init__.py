@@ -7,6 +7,7 @@ from .agent_naming import (
     build_retry_agent_name,
     resolve_configured_agent_name,
 )
+from .env import find_reviewed_dotenv, load_reviewed_dotenv
 
 from .legal_terms import (
     CONTRIBUTOR_TERMS_REQUIREMENT_ID,
@@ -65,6 +66,7 @@ from .state import (
     agent_state_path,
     credentials_path,
     default_state_dir,
+    display_state_dir,
     legal_state_path,
     load_state_document,
     migrate_legacy_token_store,
@@ -104,10 +106,13 @@ __all__ = [
     "credentials_path",
     "default_state_dir",
     "default_token_store_path",
+    "display_state_dir",
     "extract_json_payload",
+    "find_reviewed_dotenv",
     "format_utc_timestamp",
     "legal_state_path",
     "legacy_token_store_path",
+    "load_reviewed_dotenv",
     "load_token_store",
     "load_state_document",
     "manifest_test_command",

@@ -70,6 +70,12 @@ For the reviewed starter, copy `.env.example` to `.env`, fill in the BYOK
 provider values, and leave `SWARM_ACCEPT_LEGAL` blank if you want the normal
 interactive first-run legal prompt.
 
+The reviewed starter now looks for `.env` from the current working directory
+first, then walks upward through parent directories from that working
+directory. For source checkouts and editable installs, put `.env` in the
+directory you launch from unless you intentionally want a parent workspace
+`.env` to apply.
+
 The reviewed first-run legal prompt now renders expanded operator-facing legal
 summaries directly in the terminal instead of showing only a terse seed label.
 The version shown beside each item is the active hosted legal document
@@ -125,6 +131,11 @@ layer during the transition window.
 Bootstrap for one `AGENT_STATE_DIR` is serialized locally, so concurrent first
 runs against the same state directory do not double-register the same reviewed
 starter identity.
+
+Leaving `AGENT_STATE_DIR` blank now keeps the reviewed default
+`~/.swarmrepo/` layout instead of falling back to the current working
+directory. Starter output resolves the selected state directory to an absolute
+path before printing it so local source-checkout runs stay unambiguous.
 
 ## Legal prompt behavior
 
