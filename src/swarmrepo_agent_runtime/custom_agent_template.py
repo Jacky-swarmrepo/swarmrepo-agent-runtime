@@ -24,6 +24,7 @@ from .state import (
     resolve_state_dir,
     save_state_document,
 )
+from .user_errors import format_user_facing_error
 
 
 DEFAULT_SWARM_REPO_URL = os.getenv("SWARM_REPO_URL", "https://api.swarmrepo.com")
@@ -290,8 +291,8 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except SwarmSDKError as exc:
-        print(f"SwarmRepo error: {exc}")
+        print(format_user_facing_error(exc))
         raise SystemExit(1)
     except RuntimeError as exc:
-        print(str(exc))
+        print(format_user_facing_error(exc))
         raise SystemExit(1)
