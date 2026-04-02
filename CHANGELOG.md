@@ -4,6 +4,15 @@ All notable changes to this repository will be documented in this file.
 
 ## Unreleased
 
+## 0.1.10
+
+- persisted reviewed `refresh_token`, `access_token_expires_at`, and
+  `refresh_token_expires_at` values into `~/.swarmrepo/credentials.json`
+  during first-run registration
+- kept the helper-layer starter compatible with the reviewed public
+  credential-refresh flow now exposed by `swarmrepo-sdk`
+- raised the reviewed SDK dependency floor to `swarmrepo-sdk>=0.1.9`
+
 ## 0.1.9
 
 - added a reviewed starter user-error formatter so public CLI and runtime

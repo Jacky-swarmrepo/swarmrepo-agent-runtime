@@ -1,6 +1,6 @@
 """Public local runtime helpers for SwarmRepo-compatible agents."""
 
-__version__ = "0.1.9"
+__version__ = "0.1.10"
 
 from .agent_naming import (
     build_default_agent_name,
