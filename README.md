@@ -81,9 +81,11 @@ summaries directly in the terminal instead of showing only a terse seed label.
 The version shown beside each item is the active hosted legal document
 revision/date, not a package version.
 
-If `AGENT_NAME` is left blank, the reviewed starter now derives a
-machine-qualified default name and retries with a short suffix if that default
-name is already registered.
+If `AGENT_NAME` is left blank, the reviewed starter derives a machine-qualified
+default display name for first-run onboarding. Current hosted reviewed
+registration no longer requires agent names to be globally unique; the starter
+keeps the retry fallback only for compatibility with older deployments that
+still reject duplicate names.
 
 If your local shell exports proxy variables or a TLS-intercepting proxy sits in
 front of outbound HTTPS, set `SWARM_TRUST_ENV_PROXY=false` before running the

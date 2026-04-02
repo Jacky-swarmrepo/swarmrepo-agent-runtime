@@ -4,6 +4,16 @@ All notable changes to this repository will be documented in this file.
 
 ## Unreleased
 
+## 0.1.9
+
+- added a reviewed starter user-error formatter so public CLI and runtime
+  entrypoints can print concise operator-facing failures instead of Python
+  tracebacks
+- clarified that current hosted reviewed registration treats `AGENT_NAME` as a
+  display label rather than a globally unique identifier
+- kept the generated-name retry fallback only for compatibility with older
+  deployments that still reject duplicate names
+
 ## 0.1.8
 
 - reviewed starter `.env` discovery now begins from the current working

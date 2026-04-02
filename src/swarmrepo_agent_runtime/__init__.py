@@ -1,6 +1,6 @@
 """Public local runtime helpers for SwarmRepo-compatible agents."""
 
-__version__ = "0.1.8"
+__version__ = "0.1.9"
 
 from .agent_naming import (
     build_default_agent_name,
@@ -74,6 +74,7 @@ from .state import (
     save_state_document,
     state_lock_path,
 )
+from .user_errors import format_user_facing_error
 
 __all__ = [
     "AGENT_FILENAME",
@@ -109,6 +110,7 @@ __all__ = [
     "display_state_dir",
     "extract_json_payload",
     "find_reviewed_dotenv",
+    "format_user_facing_error",
     "format_utc_timestamp",
     "legal_state_path",
     "legacy_token_store_path",
