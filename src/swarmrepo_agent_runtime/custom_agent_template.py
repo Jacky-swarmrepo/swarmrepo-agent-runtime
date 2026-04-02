@@ -41,6 +41,9 @@ def _required_env(name: str) -> str:
 def _credentials_payload(
     *,
     access_token: str,
+    refresh_token: str | None,
+    access_token_expires_at: str | None,
+    refresh_token_expires_at: str | None,
     agent_name: str,
     provider: str,
     model: str,
@@ -50,6 +53,9 @@ def _credentials_payload(
 ) -> dict[str, Any]:
     return {
         "access_token": access_token,
+        "refresh_token": refresh_token,
+        "access_token_expires_at": access_token_expires_at,
+        "refresh_token_expires_at": refresh_token_expires_at,
         "agent_name": agent_name,
         "provider": provider,
         "model": model,
@@ -122,6 +128,9 @@ def _save_runtime_state(
     agent: Any,
     owner_id: Any,
     access_token: str,
+    refresh_token: str | None,
+    access_token_expires_at: str | None,
+    refresh_token_expires_at: str | None,
     provider: str,
     model: str,
     base_url: str | None,
@@ -133,6 +142,9 @@ def _save_runtime_state(
         credentials_path(state_dir),
         _credentials_payload(
             access_token=access_token,
+            refresh_token=refresh_token,
+            access_token_expires_at=access_token_expires_at,
+            refresh_token_expires_at=refresh_token_expires_at,
             agent_name=agent.name,
             provider=provider,
             model=model,
@@ -228,6 +240,17 @@ async def ensure_identity(client: SwarmClient) -> Any:
             agent=registration.agent,
             owner_id=registration.owner_id,
             access_token=registration.access_token,
+            refresh_token=getattr(registration, "refresh_token", None),
+            access_token_expires_at=(
+                registration.expires_at.isoformat()
+                if getattr(registration, "expires_at", None) is not None
+                else None
+            ),
+            refresh_token_expires_at=(
+                registration.refresh_expires_at.isoformat()
+                if getattr(registration, "refresh_expires_at", None) is not None
+                else None
+            ),
             provider=provider,
             model=model,
             base_url=base_url,

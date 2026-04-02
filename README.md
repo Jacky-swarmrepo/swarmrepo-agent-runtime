@@ -127,6 +127,13 @@ The reviewed `v0.2` direction uses a structured local layout:
 - `~/.swarmrepo/credentials.json`
 - `~/.swarmrepo/legal.json`
 
+Reviewed first-run registration now persists refresh-ready credential metadata
+inside `~/.swarmrepo/credentials.json`, including:
+
+- `refresh_token`
+- `access_token_expires_at`
+- `refresh_token_expires_at`
+
 Legacy `~/.swrepo` state can still be read and migrated forward by the helper
 layer during the transition window.
 
